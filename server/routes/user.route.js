@@ -22,7 +22,6 @@ router.post('/add', async (req, res) => {
 
     const newUser = new User({
         username: req.body.username,
-        salt: salt,
         hash: hashedPassword,
     })
 
