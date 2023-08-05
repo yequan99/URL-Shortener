@@ -13,7 +13,7 @@ export default function Login() {
 
     const Login = async (e: FormEvent) => {
         const response = await UserLogin(credentials)
-        if (response.status != 200) {
+        if (response.status !== 200) {
             setInvalid(true)
         } else {
             // Storing JWT Token

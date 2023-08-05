@@ -11,7 +11,6 @@ router.get('/', auth, (req, res) => {
 })
 
 router.post('/add', async (req, res) => {
-    console.log("Received")
     // Check if username exists
     const usernameExist = await User.findOne({ username: req.body.username})
 

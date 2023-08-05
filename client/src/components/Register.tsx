@@ -1,6 +1,6 @@
 import { useState, FormEvent, ChangeEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Alert, CircularProgress } from '@mui/material'
 import { TiArrowBack } from 'react-icons/ti'
 
 import UserRegistration from '../api/RegisterAPI'
@@ -11,15 +11,17 @@ export default function Register() {
     const navigate = useNavigate()
     const [credentials, setCredentials] = useState<UserLoginCredentials>({ username: "", password: ""})
     const [invalid, setInvalid] = useState<boolean>(false)
+    const [success, setSuccess] = useState<boolean>(false)
 
     const Register = async (e: FormEvent) => {
         const response = await UserRegistration(credentials)
-        if (response.status != 200) {
+        if (response.status !== 200) {
             setInvalid(true)
         } else {
             console.log("Status:", response.status)
             console.log("Token:", JSON.stringify(response.data, null, 4))
-            navigate("/")
+            setSuccess(true)
+            setTimeout(() => navigate("/login"), 3000)
         }
     }
 
@@ -66,6 +68,14 @@ export default function Register() {
                             </div>
                         </form>
                     </div>
+                </div>
+                <div className={`pt-4 ${success === true ? "" : "hidden"}`}>
+                    <Alert severity="success">
+                        <div className="flex flex-row">
+                            <p className="pr-4">Account registered! Redirecting you to login page</p>
+                            <CircularProgress color="success" size="1rem" />
+                        </div>
+                    </Alert>
                 </div>
             </div>
         </>
