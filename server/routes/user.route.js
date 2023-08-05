@@ -95,4 +95,19 @@ router.post('/login', async (req, res) => {
     }
 })
 
+router.post('/logout', async (req, res) => {
+    try {
+        // Delete user session token
+        const userSessionToken = await UserSessionTokenModel.findOneAndUpdate(
+            { userID: req.body.userID },
+            { $set: { token: null } },
+            { upsert: true, new: true }
+        )
+        res.status(200).json({ 'msg': "Logout success!" })
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).json({ 'Error': 'Server error' })
+    }
+})
+
 module.exports = router

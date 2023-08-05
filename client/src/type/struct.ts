@@ -8,3 +8,11 @@ export type LoginReturnToken = {
     token: string,
     userID: string
 }
+
+export type LogoutReturnMsg = {
+    msg: string
+}
+
+export type LogoutID = {
+    userID: string | null
+}
