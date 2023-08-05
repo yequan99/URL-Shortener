@@ -1,10 +1,32 @@
+import { useState, FormEvent, ChangeEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { TextField, Button } from '@mui/material'
 import { TiArrowBack } from 'react-icons/ti'
 
+import UserRegistration from '../api/RegisterAPI'
+import { UserLoginCredentials } from '../type/struct'
+
 export default function Register() {
 
     const navigate = useNavigate()
+    const [credentials, setCredentials] = useState<UserLoginCredentials>({ username: "", password: ""})
+    const [invalid, setInvalid] = useState<boolean>(false)
+
+    const Register = async (e: FormEvent) => {
+        const response = await UserRegistration(credentials)
+        if (response.status != 200) {
+            setInvalid(true)
+        } else {
+            console.log("Status:", response.status)
+            console.log("Token:", JSON.stringify(response.data, null, 4))
+            navigate("/")
+        }
+    }
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setCredentials({ ...credentials, [e.target.name]: e.target.value })
+        setInvalid(false)
+    }
 
     return (
         <>
@@ -21,8 +43,9 @@ export default function Register() {
                                     label="Username"
                                     size="small"
                                     type="text"
-                                    name="Username"
+                                    name="username"
                                     sx={{ width: 200 }}
+                                    onChange={handleChange}
                                 />
                             </div>
                             <div className="py-2">
@@ -30,12 +53,16 @@ export default function Register() {
                                     label="Password"
                                     size="small"
                                     type="password"
-                                    name="Password"
+                                    name="password"
                                     sx={{ width: 200 }}
+                                    onChange={handleChange}
                                 />
                             </div>
                             <div className="py-2">
-                                <Button variant="contained" sx={{ width: 200 }} onClick={() => navigate("/")}>Register</Button>
+                                <Button variant="contained" sx={{ width: 200 }} onClick={Register}>Register</Button>
+                            </div>
+                            <div className={`text-red-600 text-sm ${invalid === true ? "" : "hidden"}`}>
+                                Username taken
                             </div>
                         </form>
                     </div>

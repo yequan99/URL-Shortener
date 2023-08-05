@@ -14,8 +14,6 @@ export default function Login() {
     const Login = async (e: FormEvent) => {
         const response = await UserLogin(credentials)
         if (response.status != 200) {
-            console.log("Error status:", response.status)
-            console.log("Error message:", response.data.Error)
             setInvalid(true)
         } else {
             console.log("Status:", response.status)
@@ -35,7 +33,7 @@ export default function Login() {
             <div className="max-w-sm rounded overflow-hidden shadow-lg">
                 <div className="flex flex-col justify-center items-center px-6 py-4">
                     <div className="font-bold text-xl mb-2">Sign in to your account</div>
-                    <form onSubmit={Login}>
+                    <form>
                         <div className="py-2">
                             <TextField
                                 sx={{ width: 200 }}
