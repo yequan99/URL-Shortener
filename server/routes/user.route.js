@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs")
 const jwt = require('jsonwebtoken')
 const auth = require('../middleware/auth')
 let User = require('../models/user.model')
+let UserAuth = require('../models/userAuth.model')
 
 router.get('/', auth, (req, res) => {
     User.find()
@@ -54,10 +55,19 @@ router.post('/login', async (req, res) => {
             res.status(400).json({ 'Error': "Invalid Password" })
             return
         } else {
+            // Generate JWT Token
             const token = jwt.sign(
                 { _id: user._id }, 
                 process.env.JWT_TOKEN_SECRET,
                 { expiresIn: '20s' })
+            
+            // Upserting JWT Token to DB
+            const userAuth = await UserAuth.findOneAndUpdate(
+                { username: user._id },
+                { $set: { token: token } },
+                { upsert: true, new: true }
+            )
+
             res.status(200).json({ 'msg': "Login success!", 'token': token })
         }
     } catch (err) {
