@@ -12,6 +12,8 @@ app.use(express.json())
 
 connectDB()
 
-app.get('/', (req,res) => res.send("Hello World"))
+const usersRouter = require('./routes/user.route')
+
+app.use('/users', usersRouter)
 
 app.listen(port, () => { console.log(`Server started on port ${port}`) })
