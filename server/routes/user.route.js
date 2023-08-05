@@ -7,9 +7,9 @@ let UserAuthModel = require('../models/userAuth.model')
 let UserSessionTokenModel = require('../models/userSessionToken.model')
 
 router.get('/', auth, (req, res) => {
-    User.find()
-        .then(users => res.json(users))
-        .catch(err => res.status(400).json({ 'Error': err }))
+    // User.find()
+    //     .then(users => res.json(users))
+    //     .catch(err => res.status(400).json({ 'Error': err }))
 })
 
 router.post('/add', async (req, res) => {
@@ -87,7 +87,7 @@ router.post('/login', async (req, res) => {
                 { upsert: true, new: true }
             )
 
-            res.status(200).json({ 'msg': "Login success!", 'token': token })
+            res.status(200).json({ 'msg': "Login success!", 'token': token, 'userID': user._id })
         }
     } catch (err) {
         console.error(err.message)

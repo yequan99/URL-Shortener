@@ -5,5 +5,6 @@ export type UserLoginCredentials = {
 
 export type LoginReturnToken = {
     msg: string,
-    token: string
+    token: string,
+    userID: string
 }

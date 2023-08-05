@@ -1,15 +1,15 @@
 import axios from 'axios'
-import { UserLoginCredentials } from '../type/struct'
 
-export default async function UserRegistration(credentials: UserLoginCredentials) {
+export default async function UrlData(userID: string | null, token: string | null) {
     try {
-        const response = await axios.post(
-            '/users/add',
-            credentials,
+        const response = await axios.get(
+            '/users',
             {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
+                    'x-auth-token': token,
+                    'x-user-id': userID,
                 },
             },
         )
