@@ -1,9 +1,33 @@
+import { useState, FormEvent, ChangeEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { TextField, Button } from '@mui/material'
+
+import UserLogin from '../api/LoginAPI'
+import { UserLoginCredentials } from '../type/struct'
 
 export default function Login() {
 
     const navigate = useNavigate()
+    const [credentials, setCredentials] = useState<UserLoginCredentials>({ username: "", password: ""})
+    const [invalid, setInvalid] = useState<boolean>(false)
+
+    const Login = async (e: FormEvent) => {
+        const response = await UserLogin(credentials)
+        if (response.status != 200) {
+            console.log("Error status:", response.status)
+            console.log("Error message:", response.data.Error)
+            setInvalid(true)
+        } else {
+            console.log("Status:", response.status)
+            console.log("Token:", JSON.stringify(response.data, null, 4))
+            navigate("/")
+        }
+    }
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setCredentials({ ...credentials, [e.target.name]: e.target.value })
+        setInvalid(false)
+    }
 
     return (
         <div className="h-full w-full flex flex-col justify-center items-center">
@@ -11,27 +35,32 @@ export default function Login() {
             <div className="max-w-sm rounded overflow-hidden shadow-lg">
                 <div className="flex flex-col justify-center items-center px-6 py-4">
                     <div className="font-bold text-xl mb-2">Sign in to your account</div>
-                    <form>
+                    <form onSubmit={Login}>
                         <div className="py-2">
                             <TextField
+                                sx={{ width: 200 }}
                                 label="Username"
                                 size="small"
                                 type="text"
-                                name="Username"
-                                sx={{ width: 200 }}
+                                name="username"
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="py-2">
                             <TextField
+                                sx={{ width: 200 }}
                                 label="Password"
                                 size="small"
                                 type="password"
-                                name="Password"
-                                sx={{ width: 200 }}
+                                name="password"
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="py-2">
-                            <Button variant="contained" sx={{ width: 200 }}>Login</Button>
+                            <Button variant="contained" sx={{ width: 200 }} onClick={Login}>Login</Button>
+                        </div>
+                        <div className={`text-red-600 text-sm ${invalid === true ? "" : "hidden"}`}>
+                            Invalid Username/Password!
                         </div>
                     </form>
                     <div className="flex flex-row py-2 text-sm">
