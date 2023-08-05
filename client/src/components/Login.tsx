@@ -16,8 +16,9 @@ export default function Login() {
         if (response.status != 200) {
             setInvalid(true)
         } else {
-            console.log("Status:", response.status)
-            console.log("Token:", JSON.stringify(response.data, null, 4))
+            // Storing JWT Token
+            console.log("Token:", response.data.token)
+            localStorage.setItem('token', response.data.token)
             navigate("/")
         }
     }
