@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { LogoutID } from "../type/struct"
 import UserLogout from "../api/LogoutAPI"
 
-export default function Navbar({setLogout}: {setLogout: Dispatch<SetStateAction<boolean>>}) {
+export default function Navbar({username, setLogout}: {username: string, setLogout: Dispatch<SetStateAction<boolean>>}) {
 
     const navigate = useNavigate()
 
@@ -22,7 +22,7 @@ export default function Navbar({setLogout}: {setLogout: Dispatch<SetStateAction<
         <div className="flex flex-row justify-between px-4 h-full items-center">
             <div className="flex flex-row">
                 <p className="pr-1">Welcome</p>
-                <p>yq</p>
+                <p>{username}</p>
             </div>
             <div className="text-2xl font-bold">
                 URL Shortener

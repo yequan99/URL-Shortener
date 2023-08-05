@@ -6,10 +6,16 @@ let UserModel = require('../models/user.model')
 let UserAuthModel = require('../models/userAuth.model')
 let UserSessionTokenModel = require('../models/userSessionToken.model')
 
-router.get('/', auth, (req, res) => {
-    // User.find()
-    //     .then(users => res.json(users))
-    //     .catch(err => res.status(400).json({ 'Error': err }))
+router.get('/', auth, async (req, res) => {
+    try {
+        const userID = req.header("x-user-id")
+        const user = await UserModel.findById(userID)
+        console.log("User is", user.username)
+        res.status(200).json({ username: user.username })
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).json({ 'Error': 'Server error' })
+    }
 })
 
 router.post('/add', async (req, res) => {
