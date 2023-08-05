@@ -1,11 +1,13 @@
 const router = require('express').Router()
 const bcrypt = require("bcryptjs")
+const jwt = require('jsonwebtoken')
+const auth = require('../middleware/auth')
 let User = require('../models/user.model')
 
-router.get('/', (req, res) => {
+router.get('/', auth, (req, res) => {
     User.find()
         .then(users => res.json(users))
-        .catch(err => res.status(400).json('Error: ' + err))
+        .catch(err => res.status(400).json({ 'Error': err }))
 })
 
 router.post('/add', async (req, res) => {
@@ -13,7 +15,8 @@ router.post('/add', async (req, res) => {
     const usernameExist = await User.findOne({ username: req.body.username})
 
     if (usernameExist) {
-        res.status(400).send("Username already exists")
+        console.log("[User Creation] Username already exists")
+        res.status(400).json({ 'Error': "Username already exists" })
         return
     }
 
@@ -29,25 +32,38 @@ router.post('/add', async (req, res) => {
         const saveUser = await newUser.save()
         res.status(200).json("User Created!")
     } catch (err) {
-        res.status(400).json('[User Creation] Error: ', + err)
+        console.log("[User Creation] Error adding new user: " + err)
+        res.status(400).json({ 'Error': err })
     }
 })
 
 router.post('/login', async (req, res) => {
-    // Check if username exists
-    const user = await User.findOne({ username: req.body.username})
+    try {
+        // Check if username exists
+        const user = await User.findOne({ username: req.body.username})
 
-    if (!user) {
-        res.status(400).send("Username does not exist")
-        return
-    }
+        if (!user) {
+            console.log("[User Login] Username does not exist")
+            res.status(400).json({ 'Error': err })
+            return
+        }
 
-    const validPassword = await bcrypt.compare(req.body.password, user.hash)
-    if (!validPassword) {
-        res.status(400).send("Invalid Password")
-        return
+        const validPassword = await bcrypt.compare(req.body.password, user.hash)
+        if (!validPassword) {
+            console.log("[User Login] Invalid Password")
+            res.status(400).json({ 'Error': "Invalid Password" })
+            return
+        } else {
+            const token = jwt.sign(
+                { _id: user._id }, 
+                process.env.JWT_TOKEN_SECRET,
+                { expiresIn: '20s' })
+            res.status(200).json({ 'msg': "Login success!", 'token': token })
+        }
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).json({ 'Error': 'Server error' })
     }
-    res.status(200).send("Login success!")
 })
 
 module.exports = router
