@@ -4,7 +4,7 @@ import { LongURLMsg } from '../type/struct'
 export default async function ShortenURL(token: string | null, userID: string | null, longURL: LongURLMsg) {
     try {
         const response = await axios.post(
-            '/shorten',
+            '/url/shorten',
             longURL,
             {
                 headers: {
