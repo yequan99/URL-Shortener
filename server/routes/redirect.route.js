@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
         const redirectUrl = 'https://' + removeHttp
         res.status(301).redirect(redirectUrl)
     } catch (err) {
-        console.error(err.message)
+        console.error("[Redirecting URL Error] Unable to redirect to shorturl: ", err.message)
         res.status(500).json({ 'Error': 'Server error' })
     }
 })

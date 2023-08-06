@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
         const userURL = await UserURLModel.find({ userID: userID })
         res.status(200).json(userURL)
     } catch (err) {
-        console.error("Error: ", err)
+        console.error("[Retrieve URL Error] Unable to get user info: ", err.message)
         res.status(500).json({ "Error": "Server Error" })
     }
 })
@@ -54,7 +54,7 @@ router.post('/shorten', async (req, res) => {
                 }
             }
         } catch (err) {
-            console.error("Error: ", err)
+            console.error("[Shorten URL Error] Unable to shorten url: ", err.message)
             res.status(500).json({ "Error": "Server Error" })
         } finally {
             release() //Release lock
@@ -72,7 +72,7 @@ router.post('/delete', async (req, res) => {
 
         res.status(200).json({ "msg": "Deleted Successfully" })
     } catch (err) {
-        console.error("Error: ", err)
+        console.error("[Delete URL Error] Unable to delete entry: ", err.message)
         res.status(500).json({ "Error": "Server Error" })
     }
 })

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { CircularProgress, Box } from '@mui/material'
 
 import Card from "./Card"
@@ -7,16 +8,21 @@ import { UserUrlData } from '../type/struct'
 
 export default function Storage() {
 
+    const navigate = useNavigate()
     const [userUrlData, setUserUrlData] = useState<UserUrlData[]>([])
     const [empty, setEmpty] = useState<boolean>(false)
 
     useEffect(() => {
         const getUserURL = async () => {
             const response = await UserURL()
-            console.log("Response:", response.data)
             setUserUrlData(response.data)
             if (response.data.length === 0){
                 setEmpty(true)
+            }
+            if (response.status === 401) {
+                localStorage.removeItem('token')
+                localStorage.removeItem('userID')
+                navigate('/login')
             }
         }
         getUserURL()

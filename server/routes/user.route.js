@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
         const user = await UserModel.findById(userID)
         res.status(200).json({ username: user.username })
     } catch (err) {
-        console.error(err.message)
+        console.error("[Retrieve User Info Error] Error getting user info: ", err.message)
         res.status(500).json({ 'Error': 'Server error' })
     }
 })
@@ -35,8 +35,8 @@ router.post('/add', async (req, res) => {
             const saveUser = await newUser.save()
             res.status(200).json({ 'msg': "User Created!"})
         } catch (err) {
-            console.log("[User Creation] Error adding new user: " + err)
-            res.status(400).json({ 'Error': err })
+            console.log("[User Creation] Error creating new user: " + err)
+            res.status(500).json({ 'Error': "Server error" })
         }
     }
 
@@ -55,7 +55,7 @@ router.post('/add', async (req, res) => {
         const saveUserAuth = await newUserAuth.save()
     } catch (err) {
         console.log("[User Auth Creation] Error adding new user pwd: " + err)
-        res.status(400).json({ 'Error': err })
+        res.status(500).json({ 'Error': "Server error" })
     }
 })
 
@@ -66,7 +66,7 @@ router.post('/login', async (req, res) => {
 
         if (!user) {
             console.log("[User Login] Username does not exist")
-            res.status(400).json({ 'Error': err })
+            res.status(400).json({ 'Error': "Invalid Username" })
             return
         }
 
@@ -95,7 +95,7 @@ router.post('/login', async (req, res) => {
             res.status(200).json({ 'msg': "Login success!", 'token': token, 'userID': user._id })
         }
     } catch (err) {
-        console.error(err.message)
+        console.error("[Login Error] Unable to login: ", err.message)
         res.status(500).json({ 'Error': 'Server error' })
     }
 })
@@ -110,7 +110,7 @@ router.post('/logout', async (req, res) => {
         )
         res.status(200).json({ 'msg': "Logout success!" })
     } catch (err) {
-        console.error(err.message)
+        console.error("[Logout Error] Unable to logout: ", err.message)
         res.status(500).json({ 'Error': 'Server error' })
     }
 })

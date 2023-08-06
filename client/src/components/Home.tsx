@@ -1,4 +1,5 @@
 import { useState, ChangeEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { BiLink } from 'react-icons/bi'
 
 import ShortenURL from '../api/ShortenUrlAPI'
@@ -6,6 +7,7 @@ import { LongURLMsg } from '../type/struct'
 
 export default function Home() {
 
+    const navigate = useNavigate()
     const [longurl, setLongurl] = useState<LongURLMsg>({ "longURL": ""})
     const [shorturl, setShorturl] = useState<string>("")
     const [copied, setCopied] = useState<boolean>(false)
@@ -15,6 +17,10 @@ export default function Home() {
         const response = await ShortenURL(longurl)
         if (response.status === 200) {
             setShorturl(response.data.shortURL)
+        } else if (response.status === 401) {
+            localStorage.removeItem('token')
+            localStorage.removeItem('userID')
+            navigate('/login')
         } else {
             setInvalid(true)
         }

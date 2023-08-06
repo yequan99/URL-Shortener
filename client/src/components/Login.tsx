@@ -17,7 +17,6 @@ export default function Login() {
             setInvalid(true)
         } else {
             // Storing JWT Token
-            console.log("Token:", response.data.token)
             localStorage.setItem('token', response.data.token)
             localStorage.setItem('userID', response.data.userID)
             navigate("/")

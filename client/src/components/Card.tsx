@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { useNavigate } from 'react-router-dom'
 import { RxCross2 } from 'react-icons/rx'
 import { FiExternalLink } from 'react-icons/fi'
 import { BiSolidCopy } from 'react-icons/bi'
@@ -7,6 +8,8 @@ import DeleteURL from '../api/DeleteURLDataAPI'
 import { DeleteUrlMsg, UserUrlData } from '../type/struct'
 
 export default function Card({itemDetails}: {itemDetails: UserUrlData}) {
+
+    const navigate = useNavigate()
     
     const getDateDiff = (date: Date) => {
         const dateTimeAgo = moment(new Date(date)).fromNow()
@@ -18,6 +21,10 @@ export default function Card({itemDetails}: {itemDetails: UserUrlData}) {
         const response = await DeleteURL(deleteMsg)
         if (response.status === 200) {
             window.location.reload()
+        } else if (response.status === 401) {
+            localStorage.removeItem('token')
+            localStorage.removeItem('userID')
+            navigate('/login')
         }
     }
 

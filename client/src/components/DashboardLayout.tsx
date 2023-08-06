@@ -13,6 +13,8 @@ export default function DashboardLayout() {
         const getUserData = async () => {
             const response = await UserData()
             if (response.status === 401) {
+                localStorage.removeItem('token')
+                localStorage.removeItem('userID')
                 navigate('/login')
             }
             return response

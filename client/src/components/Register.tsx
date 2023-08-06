@@ -18,8 +18,6 @@ export default function Register() {
         if (response.status !== 200) {
             setInvalid(true)
         } else {
-            console.log("Status:", response.status)
-            console.log("Token:", JSON.stringify(response.data, null, 4))
             setSuccess(true)
             setTimeout(() => navigate("/login"), 3000)
         }
