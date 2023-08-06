@@ -21,3 +21,6 @@ app.use('/url', shortenUrlRouter)
 app.use('/*', redirectUrlRouter)
 
 app.listen(port, () => { console.log(`Server started on port ${port}`) })
+
+// Export the Express API
+module.exports = app
