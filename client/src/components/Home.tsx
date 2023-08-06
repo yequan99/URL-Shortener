@@ -32,9 +32,9 @@ export default function Home() {
     }
 
     return (
-        <div className="h-screen mx-16 my-12">
+        <div className="h-screen px-16 py-12">
             <h1 className="pb-4">URL Shortener:</h1>
-            <div className="grid grid-cols-4 gap-8">
+            <div className="flex flex-col gap-y-4 lg:grid lg:grid-cols-4 lg:gap-8">
                 <div className="border-2 border-slate-200 bg-slate-200 rounded-lg col-span-3 h-12 flex flex-row items-center">
                     <div className="px-4">
                         <BiLink className="text-2xl" />
@@ -49,7 +49,7 @@ export default function Home() {
             </div>
             <div className={`text-red-600 ${invalid ? "" : "invisible"}`}>Invalid URL!</div>
             <div className="pt-12 pb-4">Shortened URL:</div>
-            <div className="grid grid-cols-8 gap-8">
+            <div className="flex flex-col gap-y-4 lg:grid lg:grid-cols-8 lg:gap-8">
                 <div className="border-2 border-slate-200 bg-slate-200 rounded-lg col-span-4 h-12 flex flex-row items-center pl-4">
                 <input disabled className="w-full mr-4 bg-slate-200" placeholder='Generated link' type="text" value={shorturl} />
                 </div>

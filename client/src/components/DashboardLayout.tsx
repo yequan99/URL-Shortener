@@ -24,11 +24,11 @@ export default function DashboardLayout() {
     }, [])
 
     return (
-        <div className="flex flex-row w-full h-full">
-            <div className="w-[5%] h-screen bg-teal">
+        <div className="flex flex-col-reverse md:flex-row w-full h-screen">
+            <div className="w-full h-[3.5rem] md:w-[3.5rem] md:h-screen bg-teal fixed bottom md:relative md:bottom-auto">
                 <Sidebar username={username} />
             </div>
-            <div className="w-[95%] h-screen">
+            <div className="flex-1 h-screen md:overflow-y-auto">
                 <div className="h-full">
                     <Outlet />
                 </div>

@@ -26,8 +26,8 @@ export default function Card({itemDetails}: {itemDetails: UserUrlData}) {
             <div className="p-4 flex flex-row h-full">
                 <div className="w-[80%] flex flex-col justify-between">
                     <div>
-                        <div className="flex items-center">
-                            <h1 className="font-bold pr-2">{itemDetails.shorturl}</h1>
+                        <div className="flex md:flex-row flex-col md:items-center">
+                            <h1 className="font-bold md:text-md text-sm pr-2">{itemDetails.shorturl}</h1>
                             <div className="cursor-pointer" onClick={() => navigator.clipboard.writeText(itemDetails.shorturl)}>
                                 <BiSolidCopy />
                             </div>

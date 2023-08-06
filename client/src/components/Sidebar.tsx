@@ -20,7 +20,7 @@ export default function Sidebar({username}: {username: string}) {
     }
 
     return (
-        <div className="flex flex-col h-full justify-between py-4 items-center">
+        <div className="flex flex-row md:flex-col h-full justify-between items-center md:py-4 md:px-0 px-16">
             <div>
                 <Tooltip title={username} placement="right">
                     <IconButton>
@@ -28,11 +28,11 @@ export default function Sidebar({username}: {username: string}) {
                     </IconButton>
                 </Tooltip>
             </div>
-            <div>
+            <div className="flex md:block gap-x-16 md:gap-x-0">
                 <div className="cursor-pointer" onClick={() => navigate('/')}>
                     <BiHomeAlt2 color="#EDE9E8" className="text-2xl" />
                 </div>
-                <div className="pt-8 cursor-pointer" onClick={() => navigate('/storage')}>
+                <div className="md:pt-8 cursor-pointer" onClick={() => navigate('/storage')}>
                     <BiData color="#EDE9E8" className="text-2xl" />
                 </div>
             </div>

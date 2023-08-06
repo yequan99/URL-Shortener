@@ -23,9 +23,9 @@ export default function Storage() {
     }, [])
 
     return (
-        <div className="h-screen mx-16 my-12">
+        <div className="h-screen px-16 py-12">
             <h1 className="font-bold text-2xl">Your Shortened URLs</h1>
-            <div className="grid grid-cols-2 gap-4 pt-4">
+            <div className="flex flex-col gap-y-4 lg:grid lg:grid-cols-2 lg:gap-4 pt-4 md:pb-0 pb-36">
                 {empty ? 
                     <h1>You do not have any short URL saved!</h1>
                     : 

@@ -31,8 +31,8 @@ export default function Login() {
 
     return (
         <div className="h-full w-full flex flex-col justify-center items-center">
-            <div className="text-3xl font-extrabold pb-8">Welcome to URL Shortener!</div>
-            <div className="max-w-sm rounded overflow-hidden shadow-lg">
+            <div className="text-3xl font-extrabold pb-8 text-black">Welcome to URL Shortener!</div>
+            <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white">
                 <div className="flex flex-col justify-center items-center px-6 py-4">
                     <div className="font-bold text-xl mb-2">Sign in to your account</div>
                     <form>
