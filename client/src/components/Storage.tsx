@@ -22,7 +22,7 @@ export default function Storage() {
             <div className="grid grid-cols-2 gap-4 pt-4">
                 {userUrlData.length > 0 ?
                     userUrlData.map((item,index) => (
-                        <Card key={index} itemID={item._id} longurl={item.longurl} shorturl={item.shorturl} date={item.createdAt} />
+                        <Card key={index} itemDetails={item} />
                     )) :
                     <h1>You do not have any links stored!</h1>
                 }
