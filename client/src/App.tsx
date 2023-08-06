@@ -1,20 +1,26 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 
-import Dashboard from './components/Dashboard'
-import Layout from './components/Layout'
+import Home from './components/Home'
+import Storage from './components/Storage'
+import DashboardLayout from "./components/DashboardLayout"
+import LoginLayout from './components/LoginLayout'
 import Login from './components/Login'
 import Register from './components/Register'
 
 export default function App() {
+
   return (
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/login" element={<Layout />}>
+          <Route path="/" element={<DashboardLayout />}>
+            <Route index element={<Home />} />
+            <Route path="/storage" element={<Storage />} />
+          </Route>
+          <Route path="/login" element={<LoginLayout />}>
             <Route index element={<Login />} />
           </Route>
-          <Route path="/register" element={<Layout />}>
+          <Route path="/register" element={<LoginLayout />}>
             <Route index element={<Register />} />
           </Route>
         </Routes>

@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Alert from '@mui/material/Alert';
 
 import UrlData from '../api/UrlDataAPI'
-import UserData from '../api/UserDataAPI';
-import Navbar from './Navbar'
+import UserData from '../api/UserDataAPI'
+import Sidebar from './Sidebar'
 
 export default function Dashboard() {
 
     const navigate = useNavigate()
-    const [logout, setLogout] = useState<boolean>(false)
     const [username, setUsername] = useState<string>("")
 
     useEffect(() => {
@@ -38,16 +36,20 @@ export default function Dashboard() {
     }, [])
 
     return (
-        <div className="w-full h-screen flex-flex-col">
-            <div className="bg-blue-600 h-[8%]">
-                <Navbar username={username} setLogout={setLogout} />
-            </div>
-            <div className="h-[92%] pt-4 flex flex-col items-center">
-                Content
-                <div className={`w-fit ${logout ? "" : "hidden"}`}>
-                    <Alert severity="error">Error! Unable to logout</Alert>
+        <>
+            {username ? 
+                <div className="flex flex-row w-full h-full">
+                    <div className="w-[5%] h-screen bg-teal">
+                        <Sidebar />
+                    </div>
+                    <div className="w-[95%] h-screen">
+                        <div className="h-full">
+                            <p>Content</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+                : null
+            }
+        </>
     )
 }
