@@ -27,13 +27,11 @@ export default function Card({itemID, longurl, shorturl, date}: {itemID: number,
                     <h1 className="text-xs py-2 text-green-600">{longurl}</h1>
                     <h1 className="italic text-xs text-slate-500">{getDateDiff(date)}</h1>
                 </div>
-                <div className="w-[20%] flex flex-col items-end justify-between">
-                    <div className="invisible cursor-pointer group-hover:visible" onClick={() => deleteURL(itemID)}><RxCross2 /></div>
-                    <div className="invisible cursor-pointer group-hover:visible">
-                        <a href={`https://${shorturl}`} target="_blank" rel="noopener noreferrer">
-                            <FiExternalLink />
-                        </a>
-                    </div>
+                <div className="w-[20%] flex flex-col items-end justify-between invisible cursor-pointer group-hover:visible">
+                    <div onClick={() => deleteURL(itemID)}><RxCross2 /></div>
+                    <a href={`https://${shorturl}`} target="_blank" rel="noopener noreferrer">
+                        <FiExternalLink />
+                    </a>
                 </div>
 
             </div>
