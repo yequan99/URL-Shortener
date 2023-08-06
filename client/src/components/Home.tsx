@@ -12,30 +12,18 @@ export default function Home() {
     const [invalid, setInvalid] = useState<boolean>(false)
 
     const getShortURL = async () => {
-        // Validate URL before shortening
-        if (isValidUrl(longurl.longURL)) {
-            const response = await ShortenURL(longurl)
-            if (response.status === 200) {
-                setShorturl(response.data.shortURL)
-            }
+        const response = await ShortenURL(longurl)
+        if (response.status === 200) {
+            setShorturl(response.data.shortURL)
         } else {
             setInvalid(true)
         }
     }
 
-    const isValidUrl = (urlString: string) => {
-        var urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
-      '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
-    return !!urlPattern.test(urlString);
-  }
-
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setLongurl({ "longURL": e.target.value })
         setInvalid(false)
+        setShorturl("")
     }
 
     const copyClipboard = () => {
@@ -51,7 +39,7 @@ export default function Home() {
                     <div className="px-4">
                         <BiLink className="text-2xl" />
                     </div>
-                    <input className="w-full mr-4 bg-slate-200" placeholder='Enter Link' type="text" value={longurl.longURL} onChange={handleChange} />
+                    <input className="w-full p-1 mr-4 bg-slate-200" placeholder='Enter Link' type="text" value={longurl.longURL} onChange={handleChange} />
                 </div>
                 <div>
                     <div className="border-2 border-teal bg-teal rounded-lg h-12 flex justify-center items-center cursor-pointer transition ease-in-out delay-350 hover:-translate-y-1" onClick={getShortURL}>
@@ -59,7 +47,7 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div className={`text-red-600 ${invalid ? "" : "hidden"}`}>Invalid URL!</div>
+            <div className={`text-red-600 ${invalid ? "" : "invisible"}`}>Invalid URL!</div>
             <div className="pt-12 pb-4">Shortened URL:</div>
             <div className="grid grid-cols-8 gap-8">
                 <div className="border-2 border-slate-200 bg-slate-200 rounded-lg col-span-4 h-12 flex flex-row items-center pl-4">
