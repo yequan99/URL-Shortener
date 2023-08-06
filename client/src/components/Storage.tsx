@@ -22,10 +22,12 @@ export default function Storage() {
             if (response.status === 401) {
                 localStorage.removeItem('token')
                 localStorage.removeItem('userID')
+                alert("Session expired. Please login")
                 navigate('/login')
             }
         }
         getUserURL()
+        // eslint-disable-next-line
     }, [])
 
     return (

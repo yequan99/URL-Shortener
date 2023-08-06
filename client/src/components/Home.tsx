@@ -20,6 +20,7 @@ export default function Home() {
         } else if (response.status === 401) {
             localStorage.removeItem('token')
             localStorage.removeItem('userID')
+            alert("Session expired. Please login")
             navigate('/login')
         } else {
             setInvalid(true)

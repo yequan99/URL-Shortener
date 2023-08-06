@@ -24,6 +24,7 @@ export default function Card({itemDetails}: {itemDetails: UserUrlData}) {
         } else if (response.status === 401) {
             localStorage.removeItem('token')
             localStorage.removeItem('userID')
+            alert("Session expired. Please login")
             navigate('/login')
         }
     }

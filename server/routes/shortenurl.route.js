@@ -6,7 +6,7 @@ const auth = require('../middleware/auth')
 let UserURLModel = require('../models/userURL.model')
 const { ValidateURL, GenUniqueUrlCode } = require('../utils/utils')
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     try {
         const userID = req.header("x-user-id")
         const userURL = await UserURLModel.find({ userID: userID })
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.post('/shorten', async (req, res) => {
+router.post('/shorten', auth, async (req, res) => {
     // Mutex lock to prevent race condition when assigning url code
     lock(async function(release) {
         try {
@@ -63,7 +63,7 @@ router.post('/shorten', async (req, res) => {
     
 })
 
-router.post('/delete', async (req, res) => {
+router.post('/delete', auth, async (req, res) => {
     try {
         const itemID = req.body.itemID
 

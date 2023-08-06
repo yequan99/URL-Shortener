@@ -6,7 +6,7 @@ let UserModel = require('../models/user.model')
 let UserAuthModel = require('../models/userAuth.model')
 let UserSessionTokenModel = require('../models/userSessionToken.model')
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     try {
         const userID = req.header("x-user-id")
         const user = await UserModel.findById(userID)
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.post('/add', async (req, res) => {
+router.post('/add', auth, async (req, res) => {
     // Check if username exists
     const user = await UserModel.findOne({ username: req.body.username})
 
