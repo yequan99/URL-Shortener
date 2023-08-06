@@ -35,4 +35,18 @@ router.post('/shorten', async (req, res) => {
     }
 })
 
+router.post('/delete', async (req, res) => {
+    try {
+        const itemID = req.body.itemID
+
+        // Delete item from DB
+        const deleteURL = await UserURLModel.deleteOne({ _id: itemID })
+
+        res.status(200).json({ "msg": "Deleted Successfully" })
+    } catch (err) {
+        console.error("Error: ", err)
+        res.status(500).json({ "Error": "Server Error" })
+    }
+})
+
 module.exports = router

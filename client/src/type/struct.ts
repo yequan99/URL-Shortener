@@ -28,3 +28,7 @@ export type UserUrlData = {
     shorturl: string,
     createdAt: Date
 }
+
+export type DeleteUrlMsg = {
+    itemID: number
+}
