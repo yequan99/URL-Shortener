@@ -16,3 +16,7 @@ export type LogoutReturnMsg = {
 export type LogoutID = {
     userID: string | null
 }
+
+export type LongURLMsg = {
+    longURL: string
+}

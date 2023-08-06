@@ -13,7 +13,9 @@ app.use(express.json())
 connectDB()
 
 const usersRouter = require('./routes/user.route')
+const shortenUrlRouter = require('./routes/shortenurl.route') 
 
 app.use('/users', usersRouter)
+app.use('/shorten', shortenUrlRouter)
 
 app.listen(port, () => { console.log(`Server started on port ${port}`) })
