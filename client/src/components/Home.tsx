@@ -14,9 +14,7 @@ export default function Home() {
     const getShortURL = async () => {
         // Validate URL before shortening
         if (isValidUrl(longurl.longURL)) {
-            const token = localStorage.getItem("token")
-            const userID = localStorage.getItem("userID")
-            const response = await ShortenURL(token, userID, longurl)
+            const response = await ShortenURL(longurl)
             if (response.status === 200) {
                 setShorturl(response.data.shortURL)
             }

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export default async function UrlData(userID: string | null, token: string | null) {
+export default async function UrlData() {
     try {
         const response = await axios.get(
             '/users',
@@ -8,8 +8,8 @@ export default async function UrlData(userID: string | null, token: string | nul
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
-                    'x-auth-token': token,
-                    'x-user-id': userID,
+                    'x-auth-token': localStorage.getItem("token"),
+                    'x-user-id': localStorage.getItem("userID"),
                 },
             },
         )

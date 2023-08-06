@@ -11,19 +11,15 @@ export default function Dashboard() {
     const [username, setUsername] = useState<string>("")
 
     useEffect(() => {
-        const token = localStorage.getItem("token")
-        const userID = localStorage.getItem("userID")
         const getUrlData = async () => {
-            const token = localStorage.getItem("token")
-            const userID = localStorage.getItem("userID")
-            const response = await UrlData(userID, token)
+            const response = await UrlData()
             if (response.status === 401) {
                 navigate('/login')
             }
         }
         getUrlData()
         const getUserData = async () => {
-            const response = await UserData(userID, token)
+            const response = await UserData()
             if (response.status === 401) {
                 navigate('/login')
             }

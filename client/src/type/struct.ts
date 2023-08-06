@@ -20,3 +20,11 @@ export type LogoutID = {
 export type LongURLMsg = {
     longURL: string
 }
+
+export type UserUrlData = {
+    _id : number
+    userID: string,
+    longurl: string,
+    shorturl: string,
+    createdAt: Date
+}

@@ -1,16 +1,28 @@
+import { useEffect, useState } from 'react'
 import Card from "./Card"
+import UserURL from "../api/GetUserURLDataAPI"
+import { UserUrlData } from '../type/struct'
 
-export default function storage() {
+export default function Storage() {
 
-    const store: number[] = [1,2,3]
+    const [userUrlData, setUserUrlData] = useState<UserUrlData[]>([])
+
+    useEffect(() => {
+        const getUserURL = async () => {
+            const response = await UserURL()
+            console.log("Response:", response.data)
+            setUserUrlData(response.data)
+        }
+        getUserURL()
+    }, [])
 
     return (
         <div className="h-screen mx-16 my-12">
             <h1 className="font-bold text-2xl">Your Shortened URLs</h1>
             <div className="grid grid-cols-2 gap-4 pt-4">
-                {store.length > 0 ?
-                    store.map((item,index) => (
-                        <Card key={index} />
+                {userUrlData.length > 0 ?
+                    userUrlData.map((item,index) => (
+                        <Card key={index} itemID={item._id} longurl={item.longurl} shorturl={item.shorturl} date={item.createdAt} />
                     )) :
                     <h1>You do not have any links stored!</h1>
                 }

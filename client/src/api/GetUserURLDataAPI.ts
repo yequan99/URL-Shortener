@@ -1,11 +1,9 @@
 import axios from 'axios'
-import { LongURLMsg } from '../type/struct'
 
-export default async function ShortenURL(longURL: LongURLMsg) {
+export default async function UserURL() {
     try {
-        const response = await axios.post(
-            '/url/shorten',
-            longURL,
+        const response = await axios.get(
+            '/url',
             {
                 headers: {
                     'Content-Type': 'application/json',
