@@ -1,9 +1,10 @@
 const mongoose = require("mongoose")
 
 const userURLSchema = new mongoose.Schema({
-    userID: {type: String, required: true, unique: true},
+    userID: {type: String, required: true},
     longurl: {type: String, required: true},
     shorturl: {type: String, required: true},
+    urlcode: {type: String, required: true},
 }, {
     timestamps: true,
 })

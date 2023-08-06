@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const shortid = require('shortid')
 const auth = require('../middleware/auth')
 let UserURLModel = require('../models/userURL.model')
 
@@ -18,17 +19,37 @@ router.post('/shorten', async (req, res) => {
         const userID = req.header("x-user-id")
         const longURL = req.body.longURL
 
-        const shortURL = "www.ntu.edu.sg"
+        // Check if url already exists in user DB
+        const existUrl = await UserURLModel.findOne({ userID: userID, longurl: longURL })
+        if (existUrl) {
+            // Return stored short url
+            const shortURL = existUrl.shorturl
+            res.status(200).json({ "shortURL": shortURL })
+        } else {
+            // Generate unique short url code per user
+            let urlCode = shortid.generate()
 
-        const newUserURL = new UserURLModel({
-            userID: userID,
-            longurl: longURL,
-            shorturl: shortURL
-        })
+            const searchOtherUser = await UserURLModel.find({ longurl: longURL })
+            let urlCodeArr = []
+            searchOtherUser.map((item) => {
+                urlCodeArr.push(item.urlcode)
+            })
+            // Ensure no duplicate url code amongst different users with same link
+            while (urlCodeArr.includes(urlCode)) {
+                urlCode = shortid.generate()
+            }
 
-        const saveUserURL = await newUserURL.save()
+            const shortURL = process.env.BASE_URL + '/' + urlCode
+            const newUserURL = new UserURLModel({
+                userID: userID,
+                longurl: longURL,
+                shorturl: shortURL,
+                urlcode: urlCode
+            })
 
-        res.status(200).json({ "shortURL": shortURL })
+            const saveUserURL = await newUserURL.save()
+            res.status(200).json({ "shortURL": shortURL })
+        }
     } catch (err) {
         console.error("Error: ", err)
         res.status(500).json({ "Error": "Server Error" })
