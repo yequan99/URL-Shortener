@@ -83,7 +83,7 @@ router.post('/login', async (req, res) => {
             const token = jwt.sign(
                 { _id: user._id }, 
                 process.env.JWT_TOKEN_SECRET,
-                { expiresIn: '20s' })
+                { expiresIn: '300s' })
             
             // Upserting JWT Token to DB
             const userSessionToken = await UserSessionTokenModel.findOneAndUpdate(

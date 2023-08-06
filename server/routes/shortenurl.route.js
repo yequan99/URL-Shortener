@@ -1,9 +1,11 @@
 const router = require('express').Router()
 const mutexify = require('mutexify')
+const shortid = require('shortid')
 const lock = mutexify()
 
 const auth = require('../middleware/auth')
 let UserURLModel = require('../models/userURL.model')
+let UrlArrayModel = require('../models/urlArray.model')
 const { ValidateURL, GenUniqueUrlCode } = require('../utils/utils')
 
 router.get('/', auth, async (req, res) => {
@@ -38,9 +40,28 @@ router.post('/shorten', auth, async (req, res) => {
                     res.status(200).json({ "shortURL": shortURL })
                 } else {
                     // Generate unique short url code per user
-                    const searchOtherUser = await UserURLModel.find({ longurl: longURL })
-                    const uniqueUrlCode = GenUniqueUrlCode(searchOtherUser)
-    
+                    const searchOtherUrlCode = await UrlArrayModel.findOne({ longurl: longURL })
+                    var uniqueUrlCode = ""
+                    if (!searchOtherUrlCode) {
+                        uniqueUrlCode = shortid.generate()
+                        // Add new urlCode to array in db
+                        const newUrlCodeArray = new UrlArrayModel({
+                            longurl: longURL,
+                            urlcode: [uniqueUrlCode]
+                        })
+                        const saveNewUrlArray = await newUrlCodeArray.save()
+                    } else {
+                        uniqueUrlCode = GenUniqueUrlCode(searchOtherUrlCode.urlcode)
+
+                        let arr = searchOtherUrlCode.urlcode
+                        arr.push(uniqueUrlCode)
+                        const updateUrlArray = await UrlArrayModel.findOneAndUpdate(
+                            { longurl: longURL },
+                            { $set: { urlcode: arr } },
+                            { upsert: true, new: true }
+                        )
+                    }
+                    
                     const shortURL = process.env.BASE_URL + '/' + uniqueUrlCode
                     const newUserURL = new UserURLModel({
                         userID: userID,
@@ -66,9 +87,28 @@ router.post('/shorten', auth, async (req, res) => {
 router.post('/delete', auth, async (req, res) => {
     try {
         const itemID = req.body.itemID
+        const longURL = req.body.longurl
+        const urlCode = req.body.urlcode
 
-        // Delete item from DB
+        // Delete item from userURL DB
         const deleteURL = await UserURLModel.deleteOne({ _id: itemID })
+
+        // Delete item from urlArray DB
+        const getUrlArray = await UrlArrayModel.findOne({ longurl: longURL })
+        let arr = getUrlArray.urlcode
+        arr.remove(urlCode)
+
+        if (arr.length === 0) {
+            // Remove entire document if array is empty
+            const deleteDoc = await UrlArrayModel.deleteOne({ longurl: longURL })
+        } else {
+            // Update document with new array
+            const updateUrlArray = await UrlArrayModel.findOneAndUpdate(
+                { longurl: longURL },
+                { $set: { urlcode: arr } },
+                { upsert: true, new: true }
+            )
+        }
 
         res.status(200).json({ "msg": "Deleted Successfully" })
     } catch (err) {

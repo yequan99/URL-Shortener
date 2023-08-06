@@ -31,5 +31,7 @@ export type UserUrlData = {
 }
 
 export type DeleteUrlMsg = {
-    itemID: number
+    itemID: number,
+    longurl: string,
+    urlcode: string
 }

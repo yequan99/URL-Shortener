@@ -16,8 +16,8 @@ export default function Card({itemDetails}: {itemDetails: UserUrlData}) {
         return dateTimeAgo
     }
 
-    const deleteURL = async (itemID: number) => {
-        const deleteMsg: DeleteUrlMsg = { "itemID": itemID }
+    const deleteURL = async (itemID: number, longurl: string, urlcode: string) => {
+        const deleteMsg: DeleteUrlMsg = { "itemID": itemID, "longurl": longurl, "urlcode": urlcode}
         const response = await DeleteURL(deleteMsg)
         if (response.status === 200) {
             window.location.reload()
@@ -45,7 +45,7 @@ export default function Card({itemDetails}: {itemDetails: UserUrlData}) {
                     <h1 className="italic text-xs text-slate-500">{getDateDiff(itemDetails.createdAt)}</h1>
                 </div>
                 <div className="w-[20%] flex flex-col items-end justify-between invisible cursor-pointer group-hover:visible">
-                    <div onClick={() => deleteURL(itemDetails._id)}><RxCross2 /></div>
+                    <div onClick={() => deleteURL(itemDetails._id, itemDetails.longurl,itemDetails.urlcode)}><RxCross2 /></div>
                     <a href={itemDetails.shorturl} target="_blank" rel="noopener noreferrer">
                         <FiExternalLink />
                     </a>

@@ -8,15 +8,11 @@ function ValidateURL(longurl) {
     return (validUrl.isUri(longurl))
 }
 
-function GenUniqueUrlCode(UserInfo) {
+function GenUniqueUrlCode(urlArray) {
     let urlCode = shortid.generate()
 
-    let urlCodeArr = []
-    UserInfo.map((item) => {
-        urlCodeArr.push(item.urlcode)
-    })
     // Regenerate urlCode if other users are already using
-    while (urlCodeArr.includes(urlCode)) {
+    while (urlArray.includes(urlCode)) {
         urlCode = shortid.generate()
     }
     return urlCode
