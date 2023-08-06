@@ -7,7 +7,7 @@ import { LongURLMsg } from '../type/struct'
 export default function Home() {
 
     const [longurl, setLongurl] = useState<LongURLMsg>({ "longURL": ""})
-    const [shorturl, setShorturl] = useState<string>("link to copy")
+    const [shorturl, setShorturl] = useState<string>("")
     const [copied, setCopied] = useState<boolean>(false)
     const [invalid, setInvalid] = useState<boolean>(false)
 
@@ -51,9 +51,7 @@ export default function Home() {
                     <div className="px-4">
                         <BiLink className="text-2xl" />
                     </div>
-                    <form>
-                        <input type="text" value={longurl.longURL} onChange={handleChange} />
-                    </form>
+                    <input className="w-full mr-4 bg-slate-200" placeholder='Enter Link' type="text" value={longurl.longURL} onChange={handleChange} />
                 </div>
                 <div>
                     <div className="border-2 border-teal bg-teal rounded-lg h-12 flex justify-center items-center cursor-pointer transition ease-in-out delay-350 hover:-translate-y-1" onClick={getShortURL}>
@@ -65,7 +63,7 @@ export default function Home() {
             <div className="pt-12 pb-4">Shortened URL:</div>
             <div className="grid grid-cols-8 gap-8">
                 <div className="border-2 border-slate-200 bg-slate-200 rounded-lg col-span-4 h-12 flex flex-row items-center pl-4">
-                    {shorturl}
+                <input disabled className="w-full mr-4 bg-slate-200" placeholder='Generated link' type="text" value={shorturl} />
                 </div>
                 <div>
                     <div className="border-2 border-teal bg-teal rounded-lg col-span-1 h-12 flex justify-center items-center cursor-pointer transition ease-in-out delay-350" onClick={copyClipboard}>

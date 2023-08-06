@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 import { HiOutlineLogout } from 'react-icons/hi'
 import { BiHomeAlt2, BiData, BiSolidUser } from 'react-icons/bi'
+import { Tooltip, IconButton } from '@mui/material'
 
 import { LogoutID } from "../type/struct"
 import UserLogout from "../api/LogoutAPI"
 
-export default function Sidebar() {
+export default function Sidebar({username}: {username: string}) {
 
     const navigate = useNavigate()
 
@@ -21,7 +22,11 @@ export default function Sidebar() {
     return (
         <div className="flex flex-col h-full justify-between py-4 items-center">
             <div>
-                <BiSolidUser color="#EDE9E8" className="text-2xl" />
+                <Tooltip title={username} placement="right">
+                    <IconButton>
+                        <BiSolidUser color="#EDE9E8" className="text-2xl" />
+                    </IconButton>
+                </Tooltip>
             </div>
             <div>
                 <div className="cursor-pointer" onClick={() => navigate('/')}>
