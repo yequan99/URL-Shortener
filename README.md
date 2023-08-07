@@ -8,10 +8,10 @@
 - [Setup](#setup)
 
 ## Description
-:heavy_check_mark: Enabled user authentication with password using salting and hashing
-:heavy_check_mark: Manage user sessions using JWT (expires in 5 minutes)
-:heavy_check_mark: User able to Add/View/Delete URLs
-:heavy_check_mark: Different users shortened URLs are different even if request is the same
+<p>✅ Enabled user authentication with password using salting and hashing</p>
+<p>✅ Manage user sessions using JWT (expires in 5 minutes)</p>
+<p>✅ User able to Add/View/Delete URLs</p>
+<p>✅ Different users shortened URLs are different even if request is the same</p>
 
 ## Screenshots (Web and Mobile Views)
 
