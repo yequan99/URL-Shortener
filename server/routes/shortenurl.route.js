@@ -25,7 +25,7 @@ router.post('/shorten', auth, async (req, res) => {
         try {
             const userID = req.header("x-user-id")
             const longURL = req.body.longURL
-    
+            
             // Validate URL
             const validate = ValidateURL(longURL)
             if (!validate){
@@ -41,9 +41,8 @@ router.post('/shorten', auth, async (req, res) => {
                 } else {
                     // Generate unique short url code per user
                     const searchOtherUrlCode = await UrlArrayModel.findOne({ longurl: longURL })
-                    var uniqueUrlCode = ""
+                    var uniqueUrlCode = shortid.generate()
                     if (!searchOtherUrlCode) {
-                        uniqueUrlCode = shortid.generate()
                         // Add new urlCode to array in db
                         const newUrlCodeArray = new UrlArrayModel({
                             longurl: longURL,
@@ -51,7 +50,7 @@ router.post('/shorten', auth, async (req, res) => {
                         })
                         const saveNewUrlArray = await newUrlCodeArray.save()
                     } else {
-                        uniqueUrlCode = GenUniqueUrlCode(searchOtherUrlCode.urlcode)
+                        uniqueUrlCode = GenUniqueUrlCode(searchOtherUrlCode.urlcode, uniqueUrlCode)
 
                         let arr = searchOtherUrlCode.urlcode
                         arr.push(uniqueUrlCode)

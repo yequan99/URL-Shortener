@@ -1,16 +1,12 @@
 const shortid = require('shortid')
-const validUrl = require('valid-url')
 
 function ValidateURL(longurl) {
-    if (!longurl.startsWith("http://") || !longurl.startsWith("https://")) {
-        longurl = "https://" + longurl
-    }
-    return (validUrl.isUri(longurl))
+    const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
+
+    return urlPattern.test(longurl)
 }
 
-function GenUniqueUrlCode(urlArray) {
-    let urlCode = shortid.generate()
-
+function GenUniqueUrlCode(urlArray, urlCode) {
     // Regenerate urlCode if other users are already using
     while (urlArray.includes(urlCode)) {
         urlCode = shortid.generate()

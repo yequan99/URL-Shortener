@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node server.js",
     "dev": "nodemon server.js --ignore client"
   },
@@ -23,6 +23,7 @@
     "valid-url": "^1.0.9"
   },
   "devDependencies": {
+    "jest": "^29.6.2",
     "nodemon": "^3.0.1"
   }
 }
