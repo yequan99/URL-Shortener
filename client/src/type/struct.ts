@@ -27,6 +27,7 @@ export type UserUrlData = {
     longurl: string,
     shorturl: string,
     urlcode: string,
+    qrCode: string,
     createdAt: Date
 }
 

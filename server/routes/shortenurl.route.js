@@ -67,10 +67,10 @@ router.post('/shorten', auth, async (req, res) => {
 
                     // Check if QR Code exists
                     const getQrCodeID = await UrlQrCodeModel.findOne({ longURL: longURL })
-                    let QrCodeID = ""
+                    let QrCode = ""
 
                     if (getQrCodeID) {
-                        QrCodeID = getQrCodeID._id
+                        QrCode = getQrCodeID.qrCode
                     } else {
                         // Generate QR Code and store in DB
                         const qrCode = await QRCode.toBuffer(longURL)
@@ -79,7 +79,7 @@ router.post('/shorten', auth, async (req, res) => {
                             qrCode: qrCode
                         })
                         const saveQrCode = await qrCodeData.save()
-                        QrCodeID = saveQrCode._id
+                        QrCode = qrCode
                     }
 
                     const newUserURL = new UserURLModel({
@@ -87,7 +87,7 @@ router.post('/shorten', auth, async (req, res) => {
                         longurl: longURL,
                         shorturl: shortURL,
                         urlcode: uniqueUrlCode,
-                        qrCodeID: QrCodeID
+                        qrCode: QrCode
                     })
     
                     const saveUserURL = await newUserURL.save()

@@ -15,6 +15,7 @@ export default function Storage() {
     useEffect(() => {
         const getUserURL = async () => {
             const response = await UserURL()
+            console.log("response:", response.data)
             setUserUrlData(response.data)
             if (response.data.length === 0){
                 setEmpty(true)
