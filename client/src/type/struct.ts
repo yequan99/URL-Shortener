@@ -27,6 +27,20 @@ export type UserUrlData = {
     longurl: string,
     shorturl: string,
     urlcode: string,
+    qrCode: {
+        type: string,
+        data: number[]
+    },
+    createdAt: Date
+}
+
+export type ProcessedUserUrlData = {
+    _id : number
+    userID: string,
+    longurl: string,
+    shorturl: string,
+    urlcode: string,
+    qrCode: Blob,
     createdAt: Date
 }
 

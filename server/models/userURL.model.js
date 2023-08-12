@@ -5,6 +5,7 @@ const userURLSchema = new mongoose.Schema({
     longurl: {type: String, required: true},
     shorturl: {type: String, required: true},
     urlcode: {type: String, required: true},
+    qrCode: {type: Buffer, required: true},
 }, {
     timestamps: true,
 })

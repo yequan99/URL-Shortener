@@ -1,11 +1,13 @@
 const router = require('express').Router()
 const mutexify = require('mutexify')
 const shortid = require('shortid')
+const QRCode = require('qrcode');
 const lock = mutexify()
 
 const auth = require('../middleware/auth')
 let UserURLModel = require('../models/userURL.model')
 let UrlArrayModel = require('../models/urlArray.model')
+let UrlQrCodeModel = require('../models/urlQrCode.model')
 const { ValidateURL, GenUniqueUrlCode } = require('../utils/utils')
 
 router.get('/', auth, async (req, res) => {
@@ -29,7 +31,6 @@ router.post('/shorten', auth, async (req, res) => {
             // Validate URL
             const validate = ValidateURL(longURL)
             if (!validate){
-                console.log("[URL Shorten] Invalid URL parsed")
                 res.status(400).json({ "Error": "Invalid URL"})
             } else {
                 // Check if url already exists in user DB
@@ -37,7 +38,8 @@ router.post('/shorten', auth, async (req, res) => {
                 if (existUrl) {
                     // Return stored short url
                     const shortURL = existUrl.shorturl
-                    res.status(200).json({ "shortURL": shortURL })
+                    const QrCode = existUrl.qrCode
+                    res.status(200).json({ "shortURL": shortURL, "qrCode": QrCode })
                 } else {
                     // Generate unique short url code per user
                     const searchOtherUrlCode = await UrlArrayModel.findOne({ longurl: longURL })
@@ -60,17 +62,36 @@ router.post('/shorten', auth, async (req, res) => {
                             { upsert: true, new: true }
                         )
                     }
-                    
+        
                     const shortURL = process.env.BASE_URL + '/' + uniqueUrlCode
+
+                    // Check if QR Code exists
+                    const getQrCodeID = await UrlQrCodeModel.findOne({ longURL: longURL })
+                    let QrCode = ""
+
+                    if (getQrCodeID) {
+                        QrCode = getQrCodeID.qrCode
+                    } else {
+                        // Generate QR Code and store in DB
+                        const qrCode = await QRCode.toBuffer(longURL)
+                        const qrCodeData = new UrlQrCodeModel({
+                            longURL: longURL,
+                            qrCode: qrCode
+                        })
+                        const saveQrCode = await qrCodeData.save()
+                        QrCode = qrCode
+                    }
+
                     const newUserURL = new UserURLModel({
                         userID: userID,
                         longurl: longURL,
                         shorturl: shortURL,
-                        urlcode: uniqueUrlCode
+                        urlcode: uniqueUrlCode,
+                        qrCode: QrCode
                     })
     
                     const saveUserURL = await newUserURL.save()
-                    res.status(200).json({ "shortURL": shortURL })
+                    res.status(200).json({ "shortURL": shortURL, "qrCode": QrCode })
                 }
             }
         } catch (err) {
@@ -80,7 +101,6 @@ router.post('/shorten', auth, async (req, res) => {
             release() //Release lock
         }
     })
-    
 })
 
 router.post('/delete', auth, async (req, res) => {

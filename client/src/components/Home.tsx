@@ -4,23 +4,27 @@ import { BiLink } from 'react-icons/bi'
 
 import ShortenURL from '../api/ShortenUrlAPI'
 import { LongURLMsg } from '../type/struct'
+import QrCodeDialog from './QrCodeDialog'
 
 export default function Home() {
 
     const navigate = useNavigate()
     const [longurl, setLongurl] = useState<LongURLMsg>({ "longURL": ""})
     const [shorturl, setShorturl] = useState<string>("")
+    const [qrCode, setQrCode] = useState<Blob>(new Blob())
     const [copied, setCopied] = useState<boolean>(false)
     const [invalid, setInvalid] = useState<boolean>(false)
+    const [generated, setGenerated] = useState<boolean>(false)
 
     const getShortURL = async () => {
         const response = await ShortenURL(longurl)
         if (response.status === 200) {
             setShorturl(response.data.shortURL)
+            const processedQrCode = new Blob([new Uint8Array(response.data.qrCode.data)])
+            setQrCode(processedQrCode)
         } else if (response.status === 401) {
             localStorage.removeItem('token')
             localStorage.removeItem('userID')
-            // alert("Session expired. Please login")
             navigate('/login')
         } else {
             setInvalid(true)
@@ -31,11 +35,18 @@ export default function Home() {
         setLongurl({ "longURL": e.target.value })
         setInvalid(false)
         setShorturl("")
+        setGenerated(false)
     }
 
     const copyClipboard = () => {
         navigator.clipboard.writeText(shorturl)
         setCopied(true)
+    }
+
+    const GenerateQR = () => {
+        if (shorturl === "") {
+            setGenerated(true)
+        }
     }
 
     return (
@@ -58,14 +69,18 @@ export default function Home() {
             <div className="pt-12 pb-4">Shortened URL:</div>
             <div className="flex flex-col gap-y-4 lg:grid lg:grid-cols-8 lg:gap-8">
                 <div className="border-2 border-slate-200 bg-slate-200 rounded-lg col-span-4 h-12 flex flex-row items-center pl-4">
-                <input disabled className="w-full mr-4 bg-slate-200" placeholder='Generated link' type="text" value={shorturl} />
+                    <input disabled className="w-full mr-4 bg-slate-200" placeholder='Generated link' type="text" value={shorturl} />
                 </div>
-                <div>
+                <div className="grid grid-cols-2 gap-8 lg:col-span-2">
                     <div className="border-2 border-teal bg-teal rounded-lg col-span-1 h-12 flex justify-center items-center cursor-pointer transition ease-in-out delay-350" onClick={copyClipboard}>
                         {copied ? <h1 className="text-white">Copied!</h1> : <h1 className="text-white">Copy</h1>}
                     </div>
+                    <div className="border-2 border-teal bg-teal rounded-lg col-span-1 h-12 flex justify-center items-center cursor-pointer" onClick={GenerateQR}>
+                        <QrCodeDialog qrCode={qrCode} type="Generated" />
+                    </div>
                 </div>
             </div>
+            <div className={`text-red-500 pt-4 ${generated ? "visible" : "invisible"}`}>No generated link!</div>
         </div>
     )
 }

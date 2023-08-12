@@ -56,7 +56,7 @@ Ensure docker is installed in your local machine
 2. Go into the server directory and create a .env file with the following configurations
 
 ```
-ATLAS_URI="mongodb+srv://yequantan25:duO7o68Ma127W0gT@cluster0.hf3fnmu.mongodb.net/?retryWrites=true&w=majority"
+ATLAS_URI="mongodb+srv://yequantan25:duO7o68Ma127W0gT@cluster0.hf3fnmu.mongodb.net/url?retryWrites=true&w=majority"
 PORT=8080
 JWT_TOKEN_SECRET="eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY5MTIwOTk0NCwiaWF0IjoxNjkxMjA5OTQ0fQ.DXWo3VnxVVewuW38vCNwzyYXdjYeAlnbS7JKDJL2ajw"
 BASE_URL="http://localhost:8080"
