@@ -31,7 +31,6 @@ router.post('/shorten', auth, async (req, res) => {
             // Validate URL
             const validate = ValidateURL(longURL)
             if (!validate){
-                console.log("[URL Shorten] Invalid URL parsed")
                 res.status(400).json({ "Error": "Invalid URL"})
             } else {
                 // Check if url already exists in user DB
@@ -39,7 +38,8 @@ router.post('/shorten', auth, async (req, res) => {
                 if (existUrl) {
                     // Return stored short url
                     const shortURL = existUrl.shorturl
-                    res.status(200).json({ "shortURL": shortURL })
+                    const QrCode = existUrl.qrCode
+                    res.status(200).json({ "shortURL": shortURL, "qrCode": QrCode })
                 } else {
                     // Generate unique short url code per user
                     const searchOtherUrlCode = await UrlArrayModel.findOne({ longurl: longURL })
@@ -91,7 +91,7 @@ router.post('/shorten', auth, async (req, res) => {
                     })
     
                     const saveUserURL = await newUserURL.save()
-                    res.status(200).json({ "shortURL": shortURL })
+                    res.status(200).json({ "shortURL": shortURL, "qrCode": QrCode })
                 }
             }
         } catch (err) {
@@ -101,7 +101,6 @@ router.post('/shorten', auth, async (req, res) => {
             release() //Release lock
         }
     })
-    
 })
 
 router.post('/delete', auth, async (req, res) => {

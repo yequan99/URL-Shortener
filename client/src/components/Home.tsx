@@ -4,12 +4,14 @@ import { BiLink } from 'react-icons/bi'
 
 import ShortenURL from '../api/ShortenUrlAPI'
 import { LongURLMsg } from '../type/struct'
+import QrCodeDialog from './QrCodeDialog'
 
 export default function Home() {
 
     const navigate = useNavigate()
     const [longurl, setLongurl] = useState<LongURLMsg>({ "longURL": ""})
     const [shorturl, setShorturl] = useState<string>("")
+    const [qrCode, setQrCode] = useState<Blob>(new Blob())
     const [copied, setCopied] = useState<boolean>(false)
     const [invalid, setInvalid] = useState<boolean>(false)
 
@@ -17,6 +19,8 @@ export default function Home() {
         const response = await ShortenURL(longurl)
         if (response.status === 200) {
             setShorturl(response.data.shortURL)
+            const processedQrCode = new Blob([new Uint8Array(response.data.qrCode.data)])
+            setQrCode(processedQrCode)
         } else if (response.status === 401) {
             localStorage.removeItem('token')
             localStorage.removeItem('userID')
@@ -62,8 +66,8 @@ export default function Home() {
                 <div className="border-2 border-teal bg-teal rounded-lg col-span-1 h-12 flex justify-center items-center cursor-pointer transition ease-in-out delay-350" onClick={copyClipboard}>
                     {copied ? <h1 className="text-white">Copied!</h1> : <h1 className="text-white">Copy</h1>}
                 </div>
-                <div className="border-2 border-teal bg-teal rounded-lg col-span-1 h-12 flex justify-center items-center cursor-pointer transition ease-in-out delay-350" onClick={copyClipboard}>
-                    <h1 className="text-white">QR Code</h1>
+                <div className="border-2 border-teal bg-teal rounded-lg col-span-1 h-12 flex justify-center items-center cursor-pointer">
+                    <QrCodeDialog qrCode={qrCode} type="Generated" />
                 </div>
             </div>
         </div>

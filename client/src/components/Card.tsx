@@ -50,7 +50,7 @@ export default function Card({itemDetails}: {itemDetails: ProcessedUserUrlData})
                         <RxCross2 />
                     </div>
                     <div>
-                        <QrCodeDialog qrCode={itemDetails.qrCode} />
+                        <QrCodeDialog qrCode={itemDetails.qrCode} type="Saved" />
                     </div>
                     <div className="cursor-pointer">
                         <a href={itemDetails.shorturl} target="_blank" rel="noopener noreferrer">
