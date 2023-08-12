@@ -45,7 +45,7 @@ export default function Card({itemDetails}: {itemDetails: ProcessedUserUrlData})
                     </div>
                     <h1 className="italic text-xs text-slate-500">{getDateDiff(itemDetails.createdAt)}</h1>
                 </div>
-                <div className="w-[20%] flex flex-col items-end justify-between invisible group-hover:visible">
+                <div className="w-[20%] flex flex-col items-end justify-between md:invisible group-hover:visible">
                     <div className="cursor-pointer" onClick={() => deleteURL(itemDetails._id, itemDetails.longurl,itemDetails.urlcode)}>
                         <RxCross2 />
                     </div>
