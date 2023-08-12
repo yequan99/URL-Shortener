@@ -60,10 +60,11 @@ export default function Home() {
                 <div className="border-2 border-slate-200 bg-slate-200 rounded-lg col-span-4 h-12 flex flex-row items-center pl-4">
                 <input disabled className="w-full mr-4 bg-slate-200" placeholder='Generated link' type="text" value={shorturl} />
                 </div>
-                <div>
-                    <div className="border-2 border-teal bg-teal rounded-lg col-span-1 h-12 flex justify-center items-center cursor-pointer transition ease-in-out delay-350" onClick={copyClipboard}>
-                        {copied ? <h1 className="text-white">Copied!</h1> : <h1 className="text-white">Copy</h1>}
-                    </div>
+                <div className="border-2 border-teal bg-teal rounded-lg col-span-1 h-12 flex justify-center items-center cursor-pointer transition ease-in-out delay-350" onClick={copyClipboard}>
+                    {copied ? <h1 className="text-white">Copied!</h1> : <h1 className="text-white">Copy</h1>}
+                </div>
+                <div className="border-2 border-teal bg-teal rounded-lg col-span-1 h-12 flex justify-center items-center cursor-pointer transition ease-in-out delay-350" onClick={copyClipboard}>
+                    <h1 className="text-white">QR Code</h1>
                 </div>
             </div>
         </div>

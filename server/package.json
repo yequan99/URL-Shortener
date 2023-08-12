@@ -19,6 +19,7 @@
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.2",
     "mutexify": "^1.4.0",
+    "qrcode": "^1.5.3",
     "shortid": "^2.2.16",
     "valid-url": "^1.0.9"
   },
