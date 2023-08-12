@@ -67,7 +67,7 @@ export default function Register() {
                         </form>
                     </div>
                 </div>
-                <div className={`pt-4 w-fit ${success === false ? "" : "hidden"}`}>
+                <div className={`pt-4 w-fit ${success === true ? "" : "hidden"}`}>
                     <Alert severity="success">
                         <div className="flex flex-row">
                             <p className="pr-4">Account registered! Redirecting you to login page</p>
