@@ -14,6 +14,7 @@ export default function Home() {
     const [qrCode, setQrCode] = useState<Blob>(new Blob())
     const [copied, setCopied] = useState<boolean>(false)
     const [invalid, setInvalid] = useState<boolean>(false)
+    const [generated, setGenerated] = useState<boolean>(false)
 
     const getShortURL = async () => {
         const response = await ShortenURL(longurl)
@@ -34,11 +35,18 @@ export default function Home() {
         setLongurl({ "longURL": e.target.value })
         setInvalid(false)
         setShorturl("")
+        setGenerated(false)
     }
 
     const copyClipboard = () => {
         navigator.clipboard.writeText(shorturl)
         setCopied(true)
+    }
+
+    const GenerateQR = () => {
+        if (shorturl === "") {
+            setGenerated(true)
+        }
     }
 
     return (
@@ -67,11 +75,12 @@ export default function Home() {
                     <div className="border-2 border-teal bg-teal rounded-lg col-span-1 h-12 flex justify-center items-center cursor-pointer transition ease-in-out delay-350" onClick={copyClipboard}>
                         {copied ? <h1 className="text-white">Copied!</h1> : <h1 className="text-white">Copy</h1>}
                     </div>
-                    <div className="border-2 border-teal bg-teal rounded-lg col-span-1 h-12 flex justify-center items-center cursor-pointer">
+                    <div className="border-2 border-teal bg-teal rounded-lg col-span-1 h-12 flex justify-center items-center cursor-pointer" onClick={GenerateQR}>
                         <QrCodeDialog qrCode={qrCode} type="Generated" />
                     </div>
                 </div>
             </div>
+            <div className={`text-red-500 pt-4 ${generated ? "visible" : "invisible"}`}>No generated link!</div>
         </div>
     )
 }
