@@ -4,19 +4,23 @@ import { CircularProgress, Box } from '@mui/material'
 
 import Card from "./Card"
 import UserURL from "../api/GetUserURLDataAPI"
-import { UserUrlData } from '../type/struct'
+import { UserUrlData, ProcessedUserUrlData } from '../type/struct'
 
 export default function Storage() {
 
     const navigate = useNavigate()
-    const [userUrlData, setUserUrlData] = useState<UserUrlData[]>([])
+    const [userUrlData, setUserUrlData] = useState<ProcessedUserUrlData[]>([])
     const [empty, setEmpty] = useState<boolean>(false)
 
     useEffect(() => {
         const getUserURL = async () => {
             const response = await UserURL()
-            console.log("response:", response.data)
-            setUserUrlData(response.data)
+            const saved: UserUrlData[] = response.data
+            const processSaved: ProcessedUserUrlData[] = saved.map((item) => ({
+                ...item,
+                qrCode: new Blob([new Uint8Array(item.qrCode.data)])
+            }))
+            setUserUrlData(processSaved)
             if (response.data.length === 0){
                 setEmpty(true)
             }

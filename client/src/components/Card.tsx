@@ -4,10 +4,11 @@ import { RxCross2 } from 'react-icons/rx'
 import { FiExternalLink } from 'react-icons/fi'
 import { BiSolidCopy } from 'react-icons/bi'
 
+import QrCodeDialog from './QrCodeDialog'
 import DeleteURL from '../api/DeleteURLDataAPI'
-import { DeleteUrlMsg, UserUrlData } from '../type/struct'
+import { DeleteUrlMsg, ProcessedUserUrlData } from '../type/struct'
 
-export default function Card({itemDetails}: {itemDetails: UserUrlData}) {
+export default function Card({itemDetails}: {itemDetails: ProcessedUserUrlData}) {
 
     const navigate = useNavigate()
     
@@ -44,13 +45,19 @@ export default function Card({itemDetails}: {itemDetails: UserUrlData}) {
                     </div>
                     <h1 className="italic text-xs text-slate-500">{getDateDiff(itemDetails.createdAt)}</h1>
                 </div>
-                <div className="w-[20%] flex flex-col items-end justify-between invisible cursor-pointer group-hover:visible">
-                    <div onClick={() => deleteURL(itemDetails._id, itemDetails.longurl,itemDetails.urlcode)}><RxCross2 /></div>
-                    <a href={itemDetails.shorturl} target="_blank" rel="noopener noreferrer">
-                        <FiExternalLink />
-                    </a>
+                <div className="w-[20%] flex flex-col items-end justify-between invisible group-hover:visible">
+                    <div className="cursor-pointer" onClick={() => deleteURL(itemDetails._id, itemDetails.longurl,itemDetails.urlcode)}>
+                        <RxCross2 />
+                    </div>
+                    <div>
+                        <QrCodeDialog qrCode={itemDetails.qrCode} />
+                    </div>
+                    <div className="cursor-pointer">
+                        <a href={itemDetails.shorturl} target="_blank" rel="noopener noreferrer">
+                            <FiExternalLink />
+                        </a>
+                    </div>
                 </div>
-
             </div>
         </div>
     )
