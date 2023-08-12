@@ -61,13 +61,15 @@ export default function Home() {
             <div className="pt-12 pb-4">Shortened URL:</div>
             <div className="flex flex-col gap-y-4 lg:grid lg:grid-cols-8 lg:gap-8">
                 <div className="border-2 border-slate-200 bg-slate-200 rounded-lg col-span-4 h-12 flex flex-row items-center pl-4">
-                <input disabled className="w-full mr-4 bg-slate-200" placeholder='Generated link' type="text" value={shorturl} />
+                    <input disabled className="w-full mr-4 bg-slate-200" placeholder='Generated link' type="text" value={shorturl} />
                 </div>
-                <div className="border-2 border-teal bg-teal rounded-lg col-span-1 h-12 flex justify-center items-center cursor-pointer transition ease-in-out delay-350" onClick={copyClipboard}>
-                    {copied ? <h1 className="text-white">Copied!</h1> : <h1 className="text-white">Copy</h1>}
-                </div>
-                <div className="border-2 border-teal bg-teal rounded-lg col-span-1 h-12 flex justify-center items-center cursor-pointer">
-                    <QrCodeDialog qrCode={qrCode} type="Generated" />
+                <div className="grid grid-cols-2 gap-8 lg:col-span-2">
+                    <div className="border-2 border-teal bg-teal rounded-lg col-span-1 h-12 flex justify-center items-center cursor-pointer transition ease-in-out delay-350" onClick={copyClipboard}>
+                        {copied ? <h1 className="text-white">Copied!</h1> : <h1 className="text-white">Copy</h1>}
+                    </div>
+                    <div className="border-2 border-teal bg-teal rounded-lg col-span-1 h-12 flex justify-center items-center cursor-pointer">
+                        <QrCodeDialog qrCode={qrCode} type="Generated" />
+                    </div>
                 </div>
             </div>
         </div>
