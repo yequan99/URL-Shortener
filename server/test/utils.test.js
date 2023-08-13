@@ -1,4 +1,3 @@
-const shortid = require('shortid')
 const { ValidateURL, GenUniqueUrlCode } = require('../utils/utils')
 
 // Testing ValidateURL Function

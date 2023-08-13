@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const mutexify = require('mutexify')
-const shortid = require('shortid')
+const customId = require("custom-id")
 const QRCode = require('qrcode');
 const lock = mutexify()
 
@@ -43,7 +43,7 @@ router.post('/shorten', auth, async (req, res) => {
                 } else {
                     // Generate unique short url code per user
                     const searchOtherUrlCode = await UrlArrayModel.findOne({ longurl: longURL })
-                    var uniqueUrlCode = shortid.generate()
+                    var uniqueUrlCode = customId({})
                     if (!searchOtherUrlCode) {
                         // Add new urlCode to array in db
                         const newUrlCodeArray = new UrlArrayModel({
