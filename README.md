@@ -25,20 +25,20 @@
 ### Register Page
 ![URL Shortener - Register Page](https://i.imgur.com/1AUiIVz.jpg)
 <p>
-    <img src="https://i.imgur.com/ItgFC5k.jpg" width="24.5%" height="400px">
+    <img src="https://i.imgur.com/ItgFC5k.jpg" width="24.5%">
 </p>
 
 ### Shorten URL Page
 ![URL Shortener - Shorten URL Page](https://i.imgur.com/zH04M04.jpg)
 ![URL Shortener - QR Code](https://i.imgur.com/jDDSE0v.jpg)
 <p>
-    <img src="https://i.imgur.com/OXmKElJ.jpg" width="24.5%" height="400px">
+    <img src="https://i.imgur.com/OXmKElJ.jpg" width="24.5%">
 </p>
 
 ### Saved URL Page
 ![URL Shortener - Saved URL Page](https://i.imgur.com/xa7NUsr.jpg)
 <p>
-    <img src="https://i.imgur.com/Q2xAuwH.jpg" width="24.5%" height="400px">
+    <img src="https://i.imgur.com/Q2xAuwH.jpg" width="24.5%">
 </p>
 
 ## Technology
