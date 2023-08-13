@@ -12,13 +12,14 @@
 <p>✅ Manage user sessions using JWT (expires in 5 minutes)</p>
 <p>✅ User able to Add/View/Delete URLs</p>
 <p>✅ Different users shortened URLs are different even if request is the same</p>
+<p>✅ Feature to generate QR Code which can be downloaded in PNG</p>
 
 ## Screenshots (Web and Mobile Views)
 
 ### Login Page
 ![URL Shortener - Login Page](https://i.imgur.com/1i9nSdC.jpg)
 <p>
-    <img src="https://i.imgur.com/8YOtwm5.jpg" width="24.5%" height="400px">
+    <img src="https://i.imgur.com/8YOtwm5.jpg" width="24.5%">
 </p>
 
 ### Register Page
@@ -28,9 +29,10 @@
 </p>
 
 ### Shorten URL Page
-![URL Shortener - Shorten URL Page](https://i.imgur.com/w4tAQKC.jpg)
+![URL Shortener - Shorten URL Page](https://i.imgur.com/zH04M04.jpg)
+![URL Shortener - QR Code](https://i.imgur.com/jDDSE0v.jpg)
 <p>
-    <img src="https://i.imgur.com/R0jl69t.jpg" width="24.5%" height="400px">
+    <img src="https://i.imgur.com/OXmKElJ.jpg" width="24.5%" height="400px">
 </p>
 
 ### Saved URL Page
