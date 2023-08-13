@@ -1,7 +1,7 @@
 const shortid = require('shortid')
 
 function ValidateURL(longurl) {
-    const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
+    const urlPattern = /^(http:\/\/|https:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-z]{2,4}(\.[a-z]{2})?\/?.*$/i
 
     return urlPattern.test(longurl)
 }
